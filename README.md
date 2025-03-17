@@ -1,2 +1,2 @@
-# genome_anntation
+# Genome_annotation
 planarian genome annotation
