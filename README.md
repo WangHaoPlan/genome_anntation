@@ -1,2 +1,2 @@
 # Genome_annotation
-planarian genome annotation
+Dugesia japonica planarian genome annotation
