@@ -10,3 +10,4 @@ ls *.sort.bam|while read id;do(stringtie -p 45 -G ../hisat2_genome/original_gene
 for f in *sort.bam.gtf; do echo $f >> mergelist.txt; done
 cat mergelist.txt |wc
 stringtie --merge -p 40 -G ../hisat2_genome/original_gene_annotation.gtf -l DJKW -o current_gene_annotation.gtf mergelist.txt
+##TransDecoder.LongOrfs--Transcript
