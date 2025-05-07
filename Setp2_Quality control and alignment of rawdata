@@ -1,0 +1,12 @@
+###Quality control and alinement of rawdata
+##fastp--Quality control
+fastp -i SRA_1.fastq.gz -o SRA_1_clena.fastq.gz -I SRA_2.fastq.gz -O SRA_2_clena.fastq.gz --thread=30
+##hisat2--Alignment
+cat sra.txt |while read id;do hisat2 -p 40 --dta --known-splicesite-infile /home/data/t040444/DJ_tran_raw_data/hisat2_genome/DJ_quan_mrna_exon_hisat2_splice_sites -x /home/data/t040444/DJ_tran_raw_data/hisat2_genome/DJ_genome_hisat2_indx -1 ${id:0:11}_1.fastq.gz -2 ${id:0:11}_2.fastq.gz -S ${id:0:11}.sam;done
+##samtools
+ls *.sam|while read id ;do echo samtools sort -@ 40 -o $id.sort.bam $id;done
+##stringtie--Assemble
+ls *.sort.bam|while read id;do(stringtie -p 45 -G ../hisat2_genome/original_gene_annotation.gtf -o /home/data/t040444/DJ_tran_raw_data/aline/${id}.gtf $id);done
+for f in *sort.bam.gtf; do echo $f >> mergelist.txt; done
+cat mergelist.txt |wc
+stringtie --merge -p 40 -G ../hisat2_genome/original_gene_annotation.gtf -l DJKW -o current_gene_annotation.gtf mergelist.txt
